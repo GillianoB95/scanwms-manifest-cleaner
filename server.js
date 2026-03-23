@@ -1283,10 +1283,11 @@ app.post('/process', upload.single('manifest'), async (req, res) => {
         validationErrors.push(`Row ${rowNum}: City "${city}" is too short (minimum 3 characters)`);
       }
 
-      // Rule 6: Non-Latin characters in name/address/city (flag for review)
-      const nonLatin = /[^\u0000-\u024F\s\d'.,\-\/()#&]/;
-      if (nonLatin.test(String(row[4]||'')) || nonLatin.test(String(row[7]||'')) || nonLatin.test(String(row[8]||''))) {
-        validationErrors.push(`Row ${rowNum}: Non-English characters in name/address/city — please translate to English and resubmit`);
+      // Rule 6: Non-Latin scripts (Arabic, Chinese, Cyrillic etc.) — allow all Latin extended
+      // Unicode ranges: Basic Latin + Latin-1 Supplement + Latin Extended A/B + IPA + Spacing Modifiers + Combining Diacritics
+      const nonLatinScript = /[\u0400-\u04FF\u0600-\u06FF\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7AF]/;
+      if (nonLatinScript.test(String(row[4]||'')) || nonLatinScript.test(String(row[7]||'')) || nonLatinScript.test(String(row[8]||''))) {
+        validationErrors.push(`Row ${rowNum}: Non-Latin script detected in name/address/city — please use Latin characters`);
       }
     });
 
