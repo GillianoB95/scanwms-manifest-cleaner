@@ -224,7 +224,7 @@ ${JSON.stringify(items)}`;
 
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: 'You are an EU customs auditor. Always respond with a JSON object with an "items" array.' },
         { role: 'user', content: prompt }
@@ -1075,7 +1075,7 @@ Items to classify:
 ${JSON.stringify(items)}`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages: [
       { role: 'system', content: 'You are an EU customs classification expert. Always respond with a JSON object containing an "items" array.' },
       { role: 'user', content: prompt }
