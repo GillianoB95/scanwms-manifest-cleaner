@@ -1,3 +1,5 @@
+// Load .env from current dir or parent dir
+require('dotenv').config();
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const multer = require('multer');
